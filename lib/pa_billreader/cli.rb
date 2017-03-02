@@ -8,7 +8,11 @@ class PaBillreader::CLI
 	end
 
 	def list_bills
+		puts "All the bills are here"
 		@bills = PaBillreader::Bill.all
+		@bills.each {|bill|
+			puts "#{bill.number}. #{bill.name}"
+		}
 	end
 
 	def menu
@@ -16,12 +20,11 @@ class PaBillreader::CLI
 		while input != "exit"
 			puts "Enter the number of the bill you'd like to view, or type list to see bills again, or type exit"
 			input = gets.strip.downcase
-			case input
-			when "13"
-				puts "more info on bill 13..."
-			when "14"
-				puts "more info on bill 14..."
-			when "list"
+
+			if input.to_i > 0
+				the_bill = @bills
+				puts @bills[input.to_i-1]
+			elsif input == "list"
 				list_bills
 			else
 				puts "Not sure what you want, type list or exit"
