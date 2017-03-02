@@ -1,1 +1,5 @@
 #!/usr/bin/env ruby
+
+require './lib/environment'
+
+PaBillreader::CLI.new.call
