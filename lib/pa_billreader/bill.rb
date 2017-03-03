@@ -19,9 +19,9 @@ class PaBillreader::Bill
 		@@all << self
 	end
 
-	def create_from_array(array)
+	def self.create_from_array(array)
 		array.each { |bill_hash|
-			Bill.new(bill_hash)
+			self.new(bill_hash)
 		}
 	end
 

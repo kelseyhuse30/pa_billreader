@@ -11,10 +11,10 @@ class PaBillreader::CLI
 	end
 
 	def create_bills
-		bill_array = PaBillreader::Scraper.scrape_bill_nums("H") #house bills
-		bill_array << PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
-		bill_array.sort
-		PaBillreader::Bill.create_from_array(bill_array)
+		house_bill_array = PaBillreader::Scraper.scrape_bill_nums("H") #house bills
+		senate_bill_array = PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
+		PaBillreader::Bill.create_from_array(house_bill_array)
+		PaBillreader::Bill.create_from_array(senate_bill_array)
 	end
 
 	def create_bill_details
