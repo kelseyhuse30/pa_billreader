@@ -9,6 +9,8 @@ class PaBillreader::CLI
 
 	def list_bills
 		puts "All the bills are here"
+		PaBillreader::Scraper.scrape_bill_nums("H")
+		PaBillreader::Scraper.scrape_bill_nums("S")
 		@bills = PaBillreader::Bill.all
 		@bills.each {|bill|
 			puts "#{bill.number}. #{bill.name}"
