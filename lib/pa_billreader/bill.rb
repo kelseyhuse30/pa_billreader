@@ -1,6 +1,6 @@
 class PaBillreader::Bill
 
-	attr_accessor :name, :number, :topic, :sponsor, :last_action, :full_text
+	attr_accessor :number, :section, :short_title, :prime_sponsor, :last_action, :memo_url, :full_text_url
 
 	@@all = []
 
@@ -9,7 +9,6 @@ class PaBillreader::Bill
 			self.send("#{attr}=", value)
 		}
 		save
-
 	end
 
 	def self.all

@@ -1,19 +1,27 @@
 class PaBillreader::CLI
 
 	def call
-		puts "Would you like to view Senate or House bills?"
+		puts "Welcome to the PA bill reader!"
 		create_bills
 		create_bill_details
+		puts "There are currently #{PaBillreader::Bill.all.size} bills."
 		list_bill_nums
 		menu
 		goodbye
 	end
 
 	def create_bills
-		bill_array = PaBillreader::Scraper.scrape_bill_nums("H")
-		bill_array << PaBillreader::Scraper.scrape_bill_nums("S")
+		bill_array = PaBillreader::Scraper.scrape_bill_nums("H") #house bills
+		bill_array << PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
 		bill_array.sort
-		Bill.create_from_array(bill_array)
+		PaBillreader::Bill.create_from_array(bill_array)
+	end
+
+	def create_bill_details
+		PaBillreader::Bill.all.each {|bill|
+			attributes = PaBillreader::Scraper.scrape_bill_detail(bill.section, bill.number)
+			bill.add_bill_attributes(attributes)
+		}
 	end
 
 	def list_bills
