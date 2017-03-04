@@ -1,6 +1,6 @@
 class PaBillreader::Bill
 
-	attr_accessor :number, :section, :short_title, :prime_sponsor, :last_action, :memo_url, :full_text_url
+	attr_accessor :number, :branch, :short_title, :prime_sponsor, :last_action, :memo_url, :full_text_url
 
 	@@all = []
 
@@ -30,6 +30,11 @@ class PaBillreader::Bill
 			self.send("#{attr}=",value)
 		}
 		self
+	end
+
+	def self.find_by_number(number)
+		self.all.detect { |bill|
+			bill.number == number }
 	end
 
 
