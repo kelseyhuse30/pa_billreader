@@ -6,7 +6,7 @@ class PaBillreader::CLI
 		create_bills
 		create_bill_details
 		puts "There are currently #{PaBillreader::Bill.all.size} bills."
-		list_bill_nums
+		list_bills
 		menu
 		goodbye
 	end

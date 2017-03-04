@@ -19,6 +19,11 @@ class PaBillreader::Bill
 		@@all << self
 	end
 
+	def self.sorted
+		@@all.sort_by! {|bill| bill.number.to_i
+		}
+	end
+
 	def self.create_from_array(array)
 		array.each { |bill_hash|
 			self.new(bill_hash)
