@@ -2,6 +2,8 @@ class PaBillreader::Scraper
 
 	attr_accessor :bills
 
+	@@count = 0
+
 	def self.scrape_bill_nums(branch)
 		doc = Nokogiri::HTML(open("http://www.legis.state.pa.us/cfdocs/legis/bi/BillIndx.cfm?sYear=2017&sIndex=0&bod=#{branch}"))
 		@bills = []
