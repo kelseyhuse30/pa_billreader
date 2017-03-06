@@ -1,8 +1,7 @@
 # PaBillreader
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/pa_billreader`. To experiment with that code, run `bin/console` for an interactive prompt.
-
-TODO: Delete this and the text above, and describe your gem
+This gem is an interactive cli program to view and list current bills for the 2017-2018 Regular Session in Pennsylvania.
+The data is scraped from http://www.legis.state.pa.us/ to display current information.
 
 ## Installation
 
@@ -22,7 +21,11 @@ Or install it yourself as:
 
 ## Usage
 
-TODO: Write usage instructions here
+Open running the program, it will automatically scrape the data from the PA Legislation website and create bill objects.
+Type 'list' to view the list of bill numbers and summaries (warning: it will be >1000 items)
+Type 'view' to view information on a specific bill. You will be prompted for the number and then the branch of congress.
+When viewing a bill, you can type 'view memo' or 'view full' and the url will open in your browser.  Not all bills will have these available.
+Type 'exit' to exit the application.
 
 ## Development
 
@@ -32,7 +35,7 @@ To install this gem onto your local machine, run `bundle exec rake install`. To 
 
 ## Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/pa_billreader. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
+Bug reports and pull requests are welcome on GitHub at https://github.com/kelseyhuse30/pa_billreader. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [Contributor Covenant](http://contributor-covenant.org) code of conduct.
 
 
 ## License

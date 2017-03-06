@@ -5,32 +5,41 @@ class PaBillreader::CLI
 		puts "Welcome to the PA bill reader!"
 		puts "-------------------------------"
 		puts "Loading bills now..."
-		puts "..............................."
+		puts "-------------------------------"
 		create_bills
-		create_bill_details
-		puts "There are currently #{PaBillreader::Bill.size} bills."
 		menu
 		goodbye
 	end
 
 	def create_bills
 		house_bill_array = PaBillreader::Scraper.scrape_bill_nums("H") #house bills
-		senate_bill_array = PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
 		PaBillreader::Bill.create_from_array(house_bill_array)
+		puts "There are currently #{house_bill_array.size} bills in the House"
+
+		senate_bill_array = PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
 		PaBillreader::Bill.create_from_array(senate_bill_array)
+		puts "There are currently #{senate_bill_array.size} bills in the Senate"
+
 	end
 
-	def create_bill_details
-
+	def create_bill_details_all
 		PaBillreader::Bill.all.each {|bill|
 			attributes = PaBillreader::Scraper.scrape_bill_detail(bill.branch, bill.number)
 			bill.add_bill_attributes(attributes)
 		}
 	end
 
+	def create_bill_details_single(bill)
+		attributes = PaBillreader::Scraper.scrape_bill_detail(bill.branch, bill.number)
+		bill.add_bill_attributes(attributes)
+	end
+
 	def list_bills
-		puts "Here are the current bills for Regular Session 2017-2018"
+		puts "Here are all the current bills for Regular Session 2017-2018"
 		puts "-------------------------------"
+		puts "This may take a while..."
+		puts "-------------------------------"
+		create_bill_details_all
 		PaBillreader::Bill.sorted!
 		PaBillreader::Bill.all.each {|bill|
 			puts bill.number
@@ -48,7 +57,9 @@ class PaBillreader::CLI
 				input_num = get_valid_bill_num
 				input_branch = get_valid_branch
 				bill_to_find = PaBillreader::Bill.find_by_number(input_num, input_branch)
-				display_bill_info(bill_to_find)
+				create_bill_details_single(bill_to_find) unless bill_to_find == nil
+				display_bill_info(bill_to_find) unless bill_to_find == nil
+				puts "That is not a valid bill" if bill_to_find == nil
 			elsif input == "list"
 				list_bills
 			elsif input == "open memo"
