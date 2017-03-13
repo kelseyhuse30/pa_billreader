@@ -1,6 +1,10 @@
 #!/usr/bin/env ruby
 
 require 'bundler/setup'
-require 'environment'
+require_relative '../lib/environment'
 
 PaBillreader::CLI.new.call
+
+
+
+

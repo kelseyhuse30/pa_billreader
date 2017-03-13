@@ -12,7 +12,9 @@ class PaBillreader::Scraper
 			@bills << {number: id.text, branch: branch}
 		}
 
-		@bills
+		
+
+		PaBillreader::Bill.create_from_array(@bills)
 	end
 
 	def self.scrape_bill_detail(branch, bill)

@@ -1,5 +1,7 @@
 class PaBillreader::CLI
 
+	@@viewed_bills = []
+
 	def call
 		puts "-------------------------------"
 		puts "Welcome to the PA bill reader!"
@@ -7,18 +9,19 @@ class PaBillreader::CLI
 		puts "Loading bills now..."
 		puts "-------------------------------"
 		create_bills
+		# binding.pry
 		menu
 		goodbye
 	end
 
 	def create_bills
-		house_bill_array = PaBillreader::Scraper.scrape_bill_nums("H") #house bills
-		PaBillreader::Bill.create_from_array(house_bill_array)
-		puts "There are currently #{house_bill_array.size} bills in the House"
+		PaBillreader::Scraper.scrape_bill_nums("H") #house bills
+		
+		puts "There are currently #{PaBillreader::Bill.house_bills.size} bills in the House"
 
-		senate_bill_array = PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
-		PaBillreader::Bill.create_from_array(senate_bill_array)
-		puts "There are currently #{senate_bill_array.size} bills in the Senate"
+		PaBillreader::Scraper.scrape_bill_nums("S") #senate bills
+		
+		puts "There are currently #{PaBillreader::Bill.senate_bills.size} bills in the Senate"
 
 	end
 
@@ -45,6 +48,7 @@ class PaBillreader::CLI
 			puts bill.number
 			puts bill.short_title
 		}
+		puts "-------------------------------"
 	end
 
 	def menu
@@ -57,6 +61,7 @@ class PaBillreader::CLI
 				input_num = get_valid_bill_num
 				input_branch = get_valid_branch
 				bill_to_find = PaBillreader::Bill.find_by_number(input_num, input_branch)
+				@@viewed_bills << bill_to_find
 				create_bill_details_single(bill_to_find) unless bill_to_find == nil
 				display_bill_info(bill_to_find) unless bill_to_find == nil
 				puts "That is not a valid bill" if bill_to_find == nil
@@ -66,6 +71,9 @@ class PaBillreader::CLI
 				open_memo(bill_to_find)
 			elsif input == "open full"
 				open_full(bill_to_find)
+			elsif input == "history"
+				# list bills
+				print_history
 			else
 				puts "Not sure what you want, type view, list or exit"
 			end
@@ -115,6 +123,10 @@ class PaBillreader::CLI
 	def display_branch(abbrev)
 		return "Senate" if abbrev == "S"
 		return "House" if abbrev == "H"
+	end
+
+	def print_history
+		@@viewed_bills.each {|bill| display_bill_info(bill)}
 	end
 
 	def goodbye

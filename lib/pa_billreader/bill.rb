@@ -45,5 +45,13 @@ class PaBillreader::Bill
 			bill.number == number && bill.branch == branch }
 	end
 
+	def self.house_bills
+		self.all.select {|bill| bill.branch == "H" }
+	end
+
+	def self.senate_bills
+		self.all.select {|bill| bill.branch == "S" }
+	end
+
 
 end
